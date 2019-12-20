@@ -20,9 +20,10 @@
     $arr[] = new Student('Tran nhat vinh','java11','86','80','95');
     $arr[] = new Student('Trần Nguyễn Thành Luân','php27','72','90','71');
     $arr[] = new Student('Trần Văn Công nhất ','php26','100','95','85');
-    $arr[] = new Student('Nguyễn Trương Bảo quyết','java10','90','70','98');
+    $arr[] = new Student('Hoàng Văn Nguyên','java10','80','100','80');
     
     // print_r($arr);
+    echo "<hr>";
 
     function contain($string, $text)
     {
@@ -46,8 +47,6 @@
     }
     $max = findmaxcss($arr);
 
-    // echo $max;
-
     foreach ($arr as $a) {
         if ($a->css == $max) {
             print_r($a);
@@ -56,33 +55,13 @@
     }
 
     echo "<hr>";
-
-    foreach ($arr as $a){
-        
+    for ($i=0; $i < count($arr)-1; $i++)
+    for ($j=0; $j < count($arr)-1-$i; $j++) { 
+        if ($arr[$j]->php > $arr[$j+1]->php) {
+            $temp = $arr[$j];
+            $arr[$j] = $arr[$j+1];
+            $arr[$j+1] = $temp;
+        }
     }
+    print_r($arr);
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-
-<body>
-
-    
-
-</body>
-
-</html>
