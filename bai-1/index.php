@@ -15,35 +15,37 @@
                 <div class="panel-body">
                     <?php
                         $pi = 3.14;
-                        $dientich = $bankinh = $error = null;
+                        $error = "";
+                        $flag = true;
                         $dientich = isset($_POST['dientich']) ? $_POST['dientich'] : "";
                         $bankinh = isset($_POST['bankinh']) ? $_POST['bankinh'] : "";
 
                         if (isset($_POST['submit'])) 
                         {
-                            if ($dientich == "" && $bankinh == "") {
-                                $error = "Xin nhập bán kính hoặc diện tích";
+                            if ($dientich == "" && $bankinh == "")
+                            { 
+                                $error = "Xin nhập bán kính hoặc diện tích<br>";
+                                $flag = false;
                             }
-                            if ($dientich !== "" && $bankinh !== "") {
-                                $error = "Chỉ được 1 trong 2 trường";
-                            }
+                            if ($dientich !== "" && $bankinh !== "") 
+                            {
+                                $error .= "Chỉ được 1 trong 2 trường <br>";
+                                $flag = false;
 
+                            }
+                            if ( (!is_numeric($dientich) && $dientich !== "") || (!is_numeric($bankinh) && $bankinh !== "") ) 
+                            {    
+                                $error .= "Chỉ được nhập số";
+                                $flag = false;
+                            }
+                            if ($flag) 
+                            {
+                                if ($bankinh == "")
+                                    $bankinh = number_format(sqrt($dientich/$pi),2);
+                                else
+                                    $dientich = number_format(pow($bankinh,2)*$pi,2);
+                            }       
                         }
-                        // if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        //     if ($_POST["dientich"] == "" && $_POST["bankinh"] == "") {
-                        //         $error = "";
-                        //     } elseif (!empty($_POST["dientich"]) && !empty($_POST["bankinh"])) {
-                        //         $error = "Chỉ được 1 trong 2 trường";
-                        //     } elseif (!empty($_POST["dientich"]) && is_numeric($_POST["dientich"]) && empty($_POST["bankinh"])) {
-                        //         $dientich = $_POST["dientich"];
-                        //         $bankinh = number_format(sqrt($dientich/$pi),2);
-                        //     } elseif (!empty($_POST["bankinh"]) && is_numeric($_POST["bankinh"]) && empty($_POST["dientich"])) {
-                        //         $bankinh = $_POST["bankinh"];
-                        //         $dientich = number_format(pow($bankinh,2)*$pi,2);
-                        //     } else {
-                        //         $error = "Bạn phải nhập số";
-                        //     }
-                        // }
                     ?>
                     <form class="form-horizontal" method="POST" action="index.php">
                         <div class="form-group">
