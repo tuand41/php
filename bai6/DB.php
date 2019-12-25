@@ -2,25 +2,30 @@
 class DB  
 {   
     // private $result  = null;
-    private static $conn = null;
-
-    public static function connect()
+    public $conn = null;
+    function __construct()
     {
-        if (!isset(self::$conn)) 
-        {
-            self::$conn = new mysqli('localhost', 'root', '', 'news');
-            if (self::$conn->connect_error) {
-                die("Connection failed: ".self::$conn->connect_error);
-            }
-            self::$conn->set_charset('utf8');
-        }
-        return self::$conn ;
+        $this->connect();
     }
-    // public function execute($sql)
-    // {
-    //     # code...
-    //     return ($this->result = $this->conn->query($sql));
-    // }
+
+    public function connect()
+    {
+        $this->conn = new mysqli('localhost', 'root', '', 'news');
+        if ($this->conn->connect_error) {
+            die("Connection failed: ".$this->conn->connect_error);
+        }
+        $this->conn->set_charset('utf8');
+    }
+    public function execute($sql)
+    {
+        return  $this->conn->query($sql);
+    }
+
+    public function escapeString($data)
+    {
+        return $this->conn->real_escape_string($data);
+    }
+    
 
     // public function getData()
     // {

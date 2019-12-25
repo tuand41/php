@@ -1,12 +1,14 @@
 <?php
 $controllers = array(
-    'new' => ['index', 'show', 'create', 'store', 'edit', 'update', 'destroy','error']
+  'new' => ['home','edit', 'delete', 'add','error']
 );
-if (!array_key_exists($controller, $controllers) || !in_array($action, $controllers[$controller])) 
-{
-    $controller = 'new';
-    $action = 'error';
+if (!array_key_exists($controller, $controllers) || !in_array($action, $controllers[$controller])) {
+  $controller = 'new';
+  $action = 'error';
 }
-include_once('controller/NewController.php');
-$controllerObj = new NewController();
-$controllerObj->$action();
+
+include_once('controllers/' . $controller . '_controller.php');
+
+$nameClassController = ucwords($controller). 'Controller';
+$controller = new $nameClassController;
+$controller->$action();
