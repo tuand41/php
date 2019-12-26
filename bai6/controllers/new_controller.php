@@ -1,17 +1,46 @@
 <?php
-require_once('controllers/base_controller.php');
 require_once('model/News.php');
-require_once('DB.php');
 
-class NewController extends BaseController
+class NewController 
 {
-	public function home()
-	{
-		$news = News::all();
-		$data = array('news' => $news);
-		$this->render('home',$data);
+
+	private $modelNews;
+
+	public function __construct() {
+		$this->modelNews = new News();
 	}
 
+	public function handle($action, $id)
+	{
+		switch ($action) 
+		{
+			case '':
+				$this->home();
+				break;
+			case 'add':
+				$this->add();
+				break;
+			case 'edit':
+				$this->edit($id);
+				break;
+			case 'update':
+				$this->update($id);
+				break;
+			case 'delete':
+				$this->delete($id);
+				break;
+			default:
+				echo "Trang không tồn tại!";
+				break;
+			}
+	}
+	public function home()
+	{
+		$lists = $this->modelNews->getAllNews();
+		include_once("views/home.php");
+	}
+
+	
 	public function error()
 	{
 		$this->render('error');
@@ -19,37 +48,38 @@ class NewController extends BaseController
 
 	public function add()
 	{
-		$title = $_REQUEST['title'] ?  $conn->escapeString($_REQUEST['title']) : null;
-		$description = $_REQUEST['description'] ? $conn->escapeString($_REQUEST['description']) : null;
-		$image = $_FILES['image'] ? $this->upload_image($_FILES['image']) : null;
-		echo $title = $_REQUEST['title'];
-		$new = new News(null,$title,$description,$image,date('Y-m-d H:i:s'));
-		$new->save();
+		$news = $this->modelNews->insertNews();
+		header("location: index.php");
+	}
+
+	public function edit($id){
 		
-	}
-
-	public function edit()
-	{
-				
-	}
-	public function delete()
-	{
-				
-	}
-
-	private function upload_image($file)
-    {
-        if (isset($file))
-        {			
-            $extension = strtolower(end(explode('.',$file['name'])));
-			$extensions= array('gif','png','jpg','jpeg','ifjf');
-			$newname = rand().'.'.$extension;
-			$destination = 'public/image/'.$newname;
-			if (in_array($extension,$expensions) === true)
-			{
-				move_uploaded_file($file['tmp_name'],$destination);
+		if ($id) {
+			$detail = $this->modelNews->getNewsDetail($id);
+			if ($detail) {
+				include_once("views/edit.php");
+			} else {
+				echo "Không tìm thấy thông tin!";
 			}
-			return $newname;
-        }
-    }
+			 die();
+		} else {
+			echo "Trang không tồn tại!";
+		}
+	}
+
+	public function update($id)
+	{
+		$news = $this->modelNews->updateNews($id);
+		header("location: index.php");
+	}
+
+	public function delete($id)
+	{		
+		if ($id) {
+			$detail = $this->modelNews->deleteNews($id);
+			header("location: index.php");
+		} else {
+			echo "Trang không tồn tại!";
+		}
+	}
 }

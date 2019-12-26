@@ -1,29 +1,20 @@
-<div class="modal" id="editModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">Edit</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+<div class="container mt-5">
+    <form action="?action=update&id=<?php echo $detail['id']; ?>" method = "POST" enctype="multipart/form-data" class="col-8">
+        <div class="form-group">
+            <input type="hidden" name="id" value=""/>
+            <label>title</label>
+            <input type="text" class="form-control" name="title" placeholder="title" value="<?php echo $detail['title']; ?>" id="title">
         </div>
-        <div class="modal-body">
-            <form action="?controller=new&action=edit" method = "POST" id="form_edit">
-                <div class="form-group">
-                    <label>title</label>
-                    <input type="text" class="form-control" placeholder="title" id="title">
-                </div>
-                <div class="form-group">
-                    <label>description:</label>
-                    <input type="text" class="form-control" placeholder="des" id="description">
-                </div>
-                <div class="form-group">
-                    <label>image:</label>
-                    <input type="file" class="form-control" placeholder="Enter password" id="image">
-                </div>
-                <button type="submit" id="btnEdit" class="btn btn-primary">Edit</button>
-            </form>
+        <div class="form-group">
+            <label>description:</label>
+            <input type="text" class="form-control" placeholder="des"
+             name="description" id="description" value="<?php echo $detail['id']; ?>" >
         </div>
-        
-
-    </div>
-  </div>
+        <div class="form-group">
+            <img src="public/images/<?php echo $detail['image']; ?>" alt="new image" id="image-default">
+            <input type="file" class="form-control" name="image" style="display:none"
+                onchange="changeImg(this)" value="<?php echo $detail['id']; ?>" id="image">
+        </div>
+        <button type="submit" name="btnEdit" id="btnEdit" class="btn btn-primary">Edit</button>
+    </form>
 </div>

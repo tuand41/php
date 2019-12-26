@@ -1,34 +1,21 @@
-<?php require_once 'head.php';?>
+<?php require_once 'add.php';?>
+
 <div class="container mt-5">
 	<button class = "btn btn-primary" data-toggle="modal" data-target="#addModal">Add</button>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>id</th>
-				<th>title</th>
-				<th>description</th>
-				<th>image</th>
-				<th>created_at</th>
-				<th>tuy chon</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php foreach ( $news as $new ) { ?>
-				<tr>
-					<td><?php echo $new->id ?></td>
-					<td><?php echo $new->title ?></td>
-					<td><?php echo $new->description ?></td>
-					<td><?php echo $new->image ?></td>
-					<td><?php echo $new->create_at ?></td>
-					<td>
-						<button class="btn btn-primary" data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
-						<button class="btn btn-primary">
-							<a href=""><i style="color: white;" class="far fa-trash-alt"></i></a>
-						</button>	
-					</td>
-				</tr>    
-			<?php }?>
-		</tbody>
-	</table>
+    <?php while ( $list = $lists->fetch_assoc()) { ?>
+	<div class="row mt-4">
+		<div class="col-4">
+            <img width="100%" src='public/images/<?php echo $list["image"]; ?>'>
+		</div>
+		<div class="col-6">
+            <h4><?php echo $list['title'] ?></h4>            
+            <span><?php echo $list['created_at'] ?></span>        
+            <p><?php echo $list['description'] ?></p>              
+		</div>
+        <div class="col-2">
+        <a class="btn btn-primary mx-1 text-white" href="?action=edit&id=<?php echo $list['id']; ?>">edit</ >
+                <a class="btn btn-primary mx-1 text-white" href="?action=delete&id=<?php echo $list['id']; ?>">delete</a>
+        </div>
+	</div>
+    <?php } ?>
 </div>
-<?php require_once 'footer.php';?>
